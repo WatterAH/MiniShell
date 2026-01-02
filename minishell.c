@@ -8,6 +8,8 @@
 
 #define MAX_LINE 1024
 #define MAX_ARGS 64
+#define VERDE_FUERTE "\033[1;32m"
+#define COLOR_RESET "\033[0m"
 
 // Función para parsear comandos
 void parse(char *line, char **args)
@@ -90,13 +92,25 @@ int main()
     char line[MAX_LINE];
     char *args1[MAX_ARGS];
     char *args2[MAX_ARGS];
+    char cwd[1024];
+    char prompt[1100];
 
     while (1)
     {
-        printf("mini-shell> ");
+        if (getcwd(cwd, sizeof(cwd)) != NULL)
+        {
+            sprintf(prompt, "%sminishell:%s>%s", VERDE_FUERTE, cwd, COLOR_RESET);
+        }
+        else
+        {
+            perror("getcwd() error");
+            strcpy(prompt, "minishell>");
+        }
+
+        printf("%s ", prompt);
         fflush(stdout);
 
-        readline(line, MAX_LINE);
+        readline(prompt, line, MAX_LINE);
 
         line[strcspn(line, "\n")] = 0;
 

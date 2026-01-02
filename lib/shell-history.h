@@ -7,6 +7,6 @@
 void enableRawMode();
 void disableRawMode();
 void addHistory(const char *line);
-void readline(char *buffer, int size);
+void readline(char *prompt, char *buffer, int size);
 
 #endif

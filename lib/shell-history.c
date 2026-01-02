@@ -32,7 +32,7 @@ void addHistory(const char *line)
     }
 }
 
-void readline(char *buffer, int size)
+void readline(char *prompt, char *buffer, int size)
 {
     int pos = 0;
     int h_ptr = history_index; // Empezamos desde el final del historial
@@ -55,7 +55,7 @@ void readline(char *buffer, int size)
                 {
                     h_ptr--;
                     // Limpiar línea actual en la terminal
-                    printf("\r\033[Kmini-shell> %s", history[h_ptr % MAX_HISTORY]);
+                    printf("\r\033[K%s %s", prompt, history[h_ptr % MAX_HISTORY]);
                     strcpy(buffer, history[h_ptr % MAX_HISTORY]);
                     pos = strlen(buffer);
                 }
@@ -65,7 +65,7 @@ void readline(char *buffer, int size)
                 if (h_ptr < history_index - 1)
                 {
                     h_ptr++;
-                    printf("\r\033[Kmini-shell> %s", history[h_ptr % MAX_HISTORY]);
+                    printf("\r\033[K%s %s", prompt, history[h_ptr % MAX_HISTORY]);
                     strcpy(buffer, history[h_ptr % MAX_HISTORY]);
                     pos = strlen(buffer);
                 }
@@ -73,7 +73,7 @@ void readline(char *buffer, int size)
                 {
                     // Volver a línea vacía si bajamos del todo
                     h_ptr = history_index;
-                    printf("\r\033[Kmini-shell> ");
+                    printf("\r\033[K%s ", prompt);
                     memset(buffer, 0, size);
                     pos = 0;
                 }
