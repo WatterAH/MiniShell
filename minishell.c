@@ -8,7 +8,7 @@
 #include <sys/stat.h>
 #include "lib/shell-history.h"
 
-#define MAX_LINE 200
+#define MAX_LINE 1024
 #define MAX_ARGS 64
 #define VERDE_FUERTE "\033[1;32m"
 #define COLOR_RESET "\033[0m"
@@ -149,6 +149,8 @@ int main()
         // 2. Leer línea
         readline(prompt, line, MAX_LINE);
         line[strcspn(line, "\n")] = 0; // Quitar salto de línea
+
+        disableRawMode();
 
         if (strlen(line) == 0)
             continue;
