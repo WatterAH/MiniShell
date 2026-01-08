@@ -35,6 +35,7 @@ void addHistory(const char *line)
 void readline(char *prompt, char *buffer, int size)
 {
     int pos = 0;
+    int cursor_pos = 0;
     int h_ptr = history_index; // Empezamos desde el final del historial
     char c;
 
@@ -76,6 +77,22 @@ void readline(char *prompt, char *buffer, int size)
                     printf("\r\033[K%s ", prompt);
                     memset(buffer, 0, size);
                     pos = 0;
+                }
+            }
+            else if (seq == 'C')
+            {
+                if (cursor_pos < pos)
+                {
+                    cursor_pos++;
+                    printf("\033[C");
+                }
+            }
+            else if (seq == 'D')
+            {
+                if (cursor_pos > 0)
+                {
+                    cursor_pos--;
+                    printf("\033[D");
                 }
             }
         }
